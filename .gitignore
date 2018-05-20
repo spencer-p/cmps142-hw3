@@ -1,0 +1,8 @@
+bin
+corpora
+include
+lib
+pip-selfcheck.json
+*.pyc
+__pycache__
+tokenizers
