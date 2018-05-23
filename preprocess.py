@@ -5,18 +5,22 @@ Preprocesses text data.
 """
 
 from nltk import word_tokenize
-from nltk.corpus import stopwords
+from nltk.corpus import stopwords as sw
 from nltk.stem.porter import PorterStemmer
 import unicodedata
 import sys
+import string
 
 # Removing punctuation from unicde is tricky
 # I'm doing this because the word_tokenizer gives us unicode, so we want
 # everything to be unicode
 # Anyway, use this punctuation table with unicode.translate()
 # https://stackoverflow.com/questions/11066400/remove-punctuation-from-unicode-formatted-strings#11066687
-punctuation = dict.fromkeys(i for i in xrange(sys.maxunicode)
-        if unicodedata.category(unichr(i)).startswith('P'))
+# punctuation = dict.fromkeys(i for i in xrange(sys.maxunicode)
+#         if unicodedata.category(unichr(i)).startswith('P'))
+
+stopwords = set(sw.words('english'))
+punctuation = [i for i in u'{}'.format(string.punctuation)]
 
 def preprocess(s):
     """
@@ -44,8 +48,12 @@ def preprocess(s):
     stemmer = PorterStemmer()
     for i in range(len(texts)):
         texts[i] = [stemmer.stem(word.translate(punctuation))
-                for word in texts[i] if word not in stopwords.words('english')
-                and word.translate(punctuation) != '']
+                for word in texts[i] if word not in stopwords
+                and word not in punctuation]
+
+    # tokens = []
+    # for text in texts:
+    #     tokens = tokens + text
 
     # Compute word frequency so we can dump words used < 5 times
     freq = {}
