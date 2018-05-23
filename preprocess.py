@@ -39,9 +39,12 @@ def preprocess(s):
     # Step 2: Tokenize!
     # Split everything by line (one line for each text)
     # Tokenize it
-    # Skip word 1 (the class -- spam/ham)
+    # Skip word 1 (the class -- spam/ham), put it to array
     # Also trim the last item (it's an empty string after the last \n)
-    texts = [word_tokenize(text)[1:] for text in s.split('\n')][:-1]
+    token_texts = [word_tokenize(text) for text in s.split('\n')][:-1]
+    labels = [text[0] for text in token_texts]
+    
+    texts = [text[1:] for text in token_texts]
 
     # Step 3: Remove stop words
     # Step 4: Remove punctuation
@@ -58,6 +61,7 @@ def preprocess(s):
 
     # Step 6: Dump all infrequent tokens
     texts = [[word for word in text if freq[word] >= 5] for text in texts]
+    freq = FreqDist([word for text in texts for word in text])
 
     # # Compute word frequency so we can dump words used < 5 times
     # freq = {}
@@ -71,4 +75,4 @@ def preprocess(s):
     #     texts[i] = [word for word in texts[i] if freq[word] >= 5]
 
     # Done!
-    return texts
+    return texts, freq, labels

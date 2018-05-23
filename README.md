@@ -2,9 +2,7 @@
 
 I tried to make sure the correct stuff gets downloaded when `main.py` is run.
 
-# Running
-
-Currently it's only in a pre-processing stage.
+# Setting up
 
 Optionally you can create a virtualenv:
 
@@ -13,14 +11,20 @@ virtualenv .
 source bin/activate
 ```
 
-On my system it's actually `virtualenv2` for the Python 2 virtualenv.
-
-Anyway, then to actually run the thing:
+And then install required packages:
 
 ```bash
 pip install -r requirements.txt
-python main.py PATH_TO_TRAIN_DATA_HERE
 ```
 
-And then hopefully it should (think for a few seconds, and then) print out all
-the preprocessed data. Again, it might be `python2` to run it with Python 2.
+# Running
+
+The program is run with the following command:
+
+```bash
+python2 main.py [-h] [-d DATA_FILE] [-s SAVE_DIR]
+```
+
+Note that `python2 main.py` is usually enough because:
+* `DATA_FILE` defaults to data/train_file_cmps142_hw3.
+* `SAVE_DIR` defaults to out/. (if it doesn't exists it's automatically created)
