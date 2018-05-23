@@ -5,18 +5,24 @@ Preprocesses text data.
 """
 
 from nltk import word_tokenize
-from nltk.corpus import stopwords
+from nltk.corpus import stopwords as sw
+from nltk.probability import FreqDist
 from nltk.stem.porter import PorterStemmer
 import unicodedata
 import sys
+import string
 
 # Removing punctuation from unicde is tricky
 # I'm doing this because the word_tokenizer gives us unicode, so we want
 # everything to be unicode
 # Anyway, use this punctuation table with unicode.translate()
 # https://stackoverflow.com/questions/11066400/remove-punctuation-from-unicode-formatted-strings#11066687
-punctuation = dict.fromkeys(i for i in xrange(sys.maxunicode)
-        if unicodedata.category(unichr(i)).startswith('P'))
+# punctuation = dict.fromkeys(i for i in xrange(sys.maxunicode)
+#         if unicodedata.category(unichr(i)).startswith('P'))
+
+stopwords = set(sw.words('english'))
+punctuation = [i for i in u'{}'.format(string.punctuation)]
+
 
 def preprocess(s):
     """
@@ -43,20 +49,26 @@ def preprocess(s):
     # Doing this all in one go for simplicity.
     stemmer = PorterStemmer()
     for i in range(len(texts)):
-        texts[i] = [stemmer.stem(word.translate(punctuation))
-                for word in texts[i] if word not in stopwords.words('english')
-                and word.translate(punctuation) != '']
+        texts[i] = [stemmer.stem(word) for word in texts[i]
+                    if word not in stopwords
+                    and word not in punctuation]
 
-    # Compute word frequency so we can dump words used < 5 times
-    freq = {}
-    for text in texts:
-        for word in text:
-            if word not in freq: freq[word] = 0
-            freq[word] += 1
+    # Get freq distribution of the whole set
+    freq = FreqDist([word for text in texts for word in text])
 
     # Step 6: Dump all infrequent tokens
-    for i in range(len(texts)):
-        texts[i] = [word for word in texts[i] if freq[word] >= 5]
+    texts = [[word for word in text if freq[word] >= 5] for text in texts]
+
+    # # Compute word frequency so we can dump words used < 5 times
+    # freq = {}
+    # for text in texts:
+    #     for word in text:
+    #         if word not in freq: freq[word] = 0
+    #         freq[word] += 1
+
+    # # Step 6: Dump all infrequent tokens
+    # for i in range(len(texts)):
+    #     texts[i] = [word for word in texts[i] if freq[word] >= 5]
 
     # Done!
     return texts
