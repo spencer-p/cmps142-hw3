@@ -6,6 +6,7 @@ Preprocesses text data.
 
 from nltk import word_tokenize
 from nltk.corpus import stopwords as sw
+from nltk.probability import FreqDist
 from nltk.stem.porter import PorterStemmer
 import unicodedata
 import sys
@@ -21,6 +22,7 @@ import string
 
 stopwords = set(sw.words('english'))
 punctuation = [i for i in u'{}'.format(string.punctuation)]
+
 
 def preprocess(s):
     """
@@ -47,24 +49,26 @@ def preprocess(s):
     # Doing this all in one go for simplicity.
     stemmer = PorterStemmer()
     for i in range(len(texts)):
-        texts[i] = [stemmer.stem(word.translate(punctuation))
-                for word in texts[i] if word not in stopwords
-                and word not in punctuation]
+        texts[i] = [stemmer.stem(word) for word in texts[i]
+                    if word not in stopwords
+                    and word not in punctuation]
 
-    # tokens = []
-    # for text in texts:
-    #     tokens = tokens + text
-
-    # Compute word frequency so we can dump words used < 5 times
-    freq = {}
-    for text in texts:
-        for word in text:
-            if word not in freq: freq[word] = 0
-            freq[word] += 1
+    # Get freq distribution of the whole set
+    freq = FreqDist([word for text in texts for word in text])
 
     # Step 6: Dump all infrequent tokens
-    for i in range(len(texts)):
-        texts[i] = [word for word in texts[i] if freq[word] >= 5]
+    texts = [[word for word in text if freq[word] >= 5] for text in texts]
+
+    # # Compute word frequency so we can dump words used < 5 times
+    # freq = {}
+    # for text in texts:
+    #     for word in text:
+    #         if word not in freq: freq[word] = 0
+    #         freq[word] += 1
+
+    # # Step 6: Dump all infrequent tokens
+    # for i in range(len(texts)):
+    #     texts[i] = [word for word in texts[i] if freq[word] >= 5]
 
     # Done!
     return texts
