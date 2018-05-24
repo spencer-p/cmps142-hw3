@@ -12,18 +12,6 @@ import unicodedata
 import sys
 import string
 
-# Removing punctuation from unicde is tricky
-# I'm doing this because the word_tokenizer gives us unicode, so we want
-# everything to be unicode
-# Anyway, use this punctuation table with unicode.translate()
-# https://stackoverflow.com/questions/11066400/remove-punctuation-from-unicode-formatted-strings#11066687
-# punctuation = dict.fromkeys(i for i in xrange(sys.maxunicode)
-#         if unicodedata.category(unichr(i)).startswith('P'))
-
-stopwords = set(sw.words('english'))
-punctuation = [i for i in u'{}'.format(string.punctuation)]
-
-
 def preprocess(s):
     """
     preprocess takes a string of the form
@@ -33,6 +21,18 @@ def preprocess(s):
     stemmed, and tokens that appear less than 5 times in the entire string are
     removed entirely.
     """
+
+    # Removing punctuation from unicde is tricky
+    # I'm doing this because the word_tokenizer gives us unicode, so we want
+    # everything to be unicode
+    # Anyway, use this punctuation table with unicode.translate()
+    # https://stackoverflow.com/questions/11066400/remove-punctuation-from-unicode-formatted-strings#11066687
+    # punctuation = dict.fromkeys(i for i in xrange(sys.maxunicode)
+    #         if unicodedata.category(unichr(i)).startswith('P'))
+
+    stopwords = set(sw.words('english'))
+    punctuation = [i for i in u'{}'.format(string.punctuation)]
+
     # Step 1: Remove uppercase, and make utf-8 to be sure
     s = s.lower()
 
