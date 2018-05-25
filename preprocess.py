@@ -50,6 +50,10 @@ def preprocess(s):
 
     texts = [text[1:] for text in token_texts]
 
+    # One of the questions asks for the number of distinct tokens *at this
+    # step*. To get that information, uncomment this line.
+    # print(len(FreqDist([word for text in texts for word in text])))
+
     # Step 3: Remove stop words
     # Step 4: Remove punctuation
     # Step 5: Stem all the tokens
