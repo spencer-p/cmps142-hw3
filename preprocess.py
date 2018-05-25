@@ -47,7 +47,7 @@ def preprocess(s):
     # Also trim the last item (it's an empty string after the last \n)
     token_texts = [word_tokenize(text) for text in s.split('\n')][:-1]
     labels = [text[0] for text in token_texts]
-    
+
     texts = [text[1:] for text in token_texts]
 
     # Step 3: Remove stop words

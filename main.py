@@ -107,7 +107,7 @@ def process_file(dir_read, dir_save, filename, useFreq=None):
 
     # Give the frequency and the file back
     return f, fname
-    
+
 
 def main(_data_dir, _save_dir):
     # Setup stuff
