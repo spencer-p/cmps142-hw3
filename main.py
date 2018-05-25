@@ -85,15 +85,12 @@ def save(filename, texts, freqdist, labels):
             l = ','.join(line) + '\n'
             outfile.write(l)
 
-        outfile.close()
-
 def process_file(dir_read, dir_save, filename, useFreq=None):
     fname = dir_save + filename + '_prep.csv'
 
     # Read data file
     with io.open(dir_read + filename, 'r', encoding='utf8') as infile:
         input_text = infile.read()
-        infile.close()
 
     # Preprocess file
     processed_texts, freq, labels = preprocess(input_text)
