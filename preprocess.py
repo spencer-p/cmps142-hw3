@@ -61,10 +61,10 @@ def preprocess(s):
                     and word not in punctuation]
 
     # Get freq distribution of the whole set
-    # Note that len(freq) can give you the number of unique tokens in the data
     freq = FreqDist([word for text in texts for word in text])
 
     # Step 6: Dump all infrequent tokens
+    # Note that len(freq) can give you the number of unique tokens in the data
     texts = [[word for word in text if freq[word] >= 5] for text in texts]
     freq = FreqDist([word for text in texts for word in text])
 
