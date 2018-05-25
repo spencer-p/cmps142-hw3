@@ -20,6 +20,10 @@ def preprocess(s):
     lowercase, there are no stop words or punctuation, all the words are
     stemmed, and tokens that appear less than 5 times in the entire string are
     removed entirely.
+    Return values:
+     - list of processed SMS texts
+     - nltk.probability.FreqDist of frequency of tokens
+     - labels of each SMS text in order
     """
 
     # Removing punctuation from unicde is tricky
@@ -62,17 +66,6 @@ def preprocess(s):
     # Step 6: Dump all infrequent tokens
     texts = [[word for word in text if freq[word] >= 5] for text in texts]
     freq = FreqDist([word for text in texts for word in text])
-
-    # # Compute word frequency so we can dump words used < 5 times
-    # freq = {}
-    # for text in texts:
-    #     for word in text:
-    #         if word not in freq: freq[word] = 0
-    #         freq[word] += 1
-
-    # # Step 6: Dump all infrequent tokens
-    # for i in range(len(texts)):
-    #     texts[i] = [word for word in texts[i] if freq[word] >= 5]
 
     # Done!
     return texts, freq, labels
