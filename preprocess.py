@@ -12,7 +12,8 @@ import unicodedata
 import sys
 import string
 
-def preprocess(s):
+
+def preprocess(s, output=False):
     """
     preprocess takes a string of the form
     '(ham|spam) words words words\n(ham|spam) more words here....'
@@ -50,9 +51,9 @@ def preprocess(s):
 
     texts = [text[1:] for text in token_texts]
 
-    # One of the questions asks for the number of distinct tokens *at this
-    # step*. To get that information, uncomment this line.
-    # print(len(FreqDist([word for text in texts for word in text])))
+    if output:
+        answer_question('STEP 2.a', 'Total numner of distinct tokens is ' +
+                        str(FreqDist([word for text in texts for word in text]).B()) + '.')
 
     # Step 3: Remove stop words
     # Step 4: Remove punctuation
@@ -64,6 +65,9 @@ def preprocess(s):
                     if word not in stopwords
                     and word not in punctuation]
 
+    if output:
+        answer_question('STEP 5.a', 'The list is ' + str(texts[10]) + '.')
+
     # Get freq distribution of the whole set
     freq = FreqDist([word for text in texts for word in text])
 
@@ -72,5 +76,14 @@ def preprocess(s):
     texts = [[word for word in text if freq[word] >= 5] for text in texts]
     freq = FreqDist([word for text in texts for word in text])
 
+    if output:
+        answer_question(
+            'STEP 6.a', 'Total numner of distinct tokens is ' + str(freq.B()) + '.')
+
     # Done!
     return texts, freq, labels
+
+
+def answer_question(q, t):
+    s = '[{}] {}'.format(q, t)
+    print(s)
