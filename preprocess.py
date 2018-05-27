@@ -13,7 +13,7 @@ import sys
 import string
 
 
-def preprocess(s, output=False):
+def preprocess(s, output_train=False, output_test=False):
     """
     preprocess takes a string of the form
     '(ham|spam) words words words\n(ham|spam) more words here....'
@@ -51,7 +51,7 @@ def preprocess(s, output=False):
 
     texts = [text[1:] for text in token_texts]
 
-    if output:
+    if output_train:
         answer_question('STEP 2.a', 'Total numner of distinct tokens is ' +
                         str(FreqDist([word for text in texts for word in text]).B()) + '.')
 
@@ -65,8 +65,10 @@ def preprocess(s, output=False):
                     if word not in stopwords
                     and word not in punctuation]
 
-    if output:
+    if output_train:
         answer_question('STEP 5.a', 'The list is ' + str(texts[10]) + '.')
+    if output_test:
+        answer_question('STEP 1.a', 'The list is ' + str(texts[23]) + '.')
 
     # Get freq distribution of the whole set
     freq = FreqDist([word for text in texts for word in text])
@@ -76,7 +78,7 @@ def preprocess(s, output=False):
     texts = [[word for word in text if freq[word] >= 5] for text in texts]
     freq = FreqDist([word for text in texts for word in text])
 
-    if output:
+    if output_train:
         answer_question(
             'STEP 6.a', 'Total numner of distinct tokens is ' + str(freq.B()) + '.')
 

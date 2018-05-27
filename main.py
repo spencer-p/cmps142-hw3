@@ -70,7 +70,6 @@ def save(filename, texts, freqdist, labels, output_train=False, output_test=Fals
         else:
             answer_question('STEP 7.c', 'No, the frequency doesn\'t contain "music".')
 
-    zero_sums = 0
     # Build lines
     for i in range(0, len(texts)):
         values = []
@@ -85,8 +84,6 @@ def save(filename, texts, freqdist, labels, output_train=False, output_test=Fals
                 values.append(0)
 
         s = sum(values)
-        if s == 0:
-            zero_sums = zero_sums + 1
         if i == 0 and output_train:
             answer_question('STEP 7.d', 'The sum of the second row is ' + str(s) + '.')
 
@@ -95,10 +92,31 @@ def save(filename, texts, freqdist, labels, output_train=False, output_test=Fals
         lines.append(values + [labels[i]])
 
     if output_train:
-        answer_question('STEP 7.e', 'There are ' + str(zero_sums) + ' that sum to 0.')
-
+        zero_sums = 0
+        for i in range(0, len(headers) - 1):
+            col = [int(l[i]) for l in lines]
+            if sum(col) == 0:
+                zero_sums = zero_sums + 1
+        answer_question('STEP 7.e', 'There are ' + str(zero_sums) + ' columns that sum to 0.')
 
     headers = headers + [u'Label']
+
+    if output_test:
+        answer_question('STEP 2.b', 'Total number of rows (including headers) is ' + str(len(lines) + 1) + '.')
+        answer_question('STEP 2.c', 'Total number of columns (including label) is ' + str(len(headers)) + '.')
+        answer_question('STEP 2.d', 'First 5 columns headers for both files are ' + str(headers[:5]) + '.')
+
+        if u'head' in headers:
+            answer_question('STEP 2.e', 'Yes, the headers contain "head".')
+        else:
+            answer_question('STEP 2.e', 'Yes, the headers don\'t contain "head".')
+
+        zero_sums = 0
+        for i in range(0, len(headers) - 1):
+            col = [int(l[i]) for l in lines]
+            if sum(col) == 0:
+                zero_sums = zero_sums + 1
+        answer_question('STEP 2.f', 'There are ' + str(zero_sums) + ' columns that sum to 0.')
 
     # Write to file
     with io.open(filename, 'w', encoding='utf8') as outfile:
@@ -118,7 +136,7 @@ def process_file(dir_read, dir_save, filename, useFreq=None, output_train=False,
         input_text = infile.read()
 
     # Preprocess file
-    processed_texts, freq, labels = preprocess(input_text, output_train)
+    processed_texts, freq, labels = preprocess(input_text, output_train=output_train, output_test=output_test)
 
     # Save
     if useFreq is not None:
@@ -149,10 +167,17 @@ def main(_data_dir, _save_dir, output_train=False, output_test=False):
     save_dir = check_dir(_save_dir)
 
     # Do processing
+    print('### Processing Training set ###')
     train_freq, train_file = process_file(
         data_dir, save_dir, TRAIN_FILE, output_train=output_train)
+    if output_train:
+        print('')
+    print('### Processing Testing  set ###')
     test_freq, test_file = process_file(
         data_dir, save_dir, TEST_FILE, useFreq=train_freq, output_test=output_test)
+    if output_train:
+        print('')
+    print('###          Done.          ###')
 
     return train_file, test_file
 
