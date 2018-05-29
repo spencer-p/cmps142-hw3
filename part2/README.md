@@ -13,3 +13,9 @@ I made a script that does both for a class (no extension needed)...
 ```bash
 ./do.sh <class>
 ```
+
+Also another script does it for all three files and pipes the output to files in `out/`:
+```bash
+./doall.sh
+```
+For this, errors still show in the console, not in the file (easier to debug?).
