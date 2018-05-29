@@ -20,8 +20,9 @@ public class LogisticRegression_withRegularization {
     /** the number of iterations */
     private int ITERATIONS = 200;
 
-    /** TODO: Constructor initializes the weight vector. Initialize it by setting it to the 0 vector. **/
+    /** Constructor initializes the weight vector. Initialize it by setting it to the 0 vector. **/
     public LogisticRegression_withRegularization(int n) { // n is the number of weights to be learned
+        weights = new double[n];
     }
 
     /** TODO: Implement the function that returns the L2 norm of the weight vector **/
@@ -29,9 +30,9 @@ public class LogisticRegression_withRegularization {
         return 0.0;
     }
 
-    /** TODO: Implement the sigmoid function **/
+    /** Implement the sigmoid function **/
     private static double sigmoid(double z) {
-        return 0.0;
+        return (1 / (1 + Math.exp(- z)));
     }
 
     /** TODO: Helper function for prediction **/
@@ -84,8 +85,13 @@ public class LogisticRegression_withRegularization {
         public int label; // Label of the instance. Can be 0 or 1
         public double[] x; // The feature vector for the instance
 
-        /** TODO: Constructor for initializing the Instance object **/
-        public LRInstance(int label, double[] x) {
+        /** Constructor for initializing the Instance object **/
+        public LRInstance(int _label, double[] _x) {
+            label = _label;
+            x = new double[_x.length];
+            for (int i = 0; i < _x.length; i++) {
+                x[i] = _x[i];
+            }
         }
     }
 
