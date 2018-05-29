@@ -119,8 +119,8 @@ public class LogisticRegression_withBias {
 
 
     public static void main(String... args) throws FileNotFoundException {
-        List<LRInstance> trainInstances = readDataSet("data/HW3_TianyiLuo_train.csv");
-        List<LRInstance> testInstances = readDataSet("data/HW3_TianyiLuo_test.csv");
+        List<LRInstance> trainInstances = readDataSet("HW3_TianyiLuo_train.csv");
+        List<LRInstance> testInstances = readDataSet("HW3_TianyiLuo_test.csv");
 
         // create an instance of the classifier
         int d = trainInstances.get(0).x.length;
