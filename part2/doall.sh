@@ -1,7 +1,8 @@
 #!/bin/bash
 
-rm -rf out/
-mkdir out/
+if [ ! -d out ]; then
+    mkdir out/
+fi
 
 source do.sh LogisticRegression > out/LogisticRegression.txt
 source do.sh LogisticRegression_withBias > out/LogisticRegression_withBias.txt

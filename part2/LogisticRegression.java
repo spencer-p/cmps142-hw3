@@ -17,6 +17,7 @@ public class LogisticRegression {
 
     /** TODO: Constructor initializes the weight vector. Initialize it by setting it to the 0 vector. **/
     public LogisticRegression(int n) { // n is the number of weights to be learned
+        weights = new double[n];
     }
 
     /** TODO: Implement the function that returns the L2 norm of the weight vector **/
@@ -80,7 +81,12 @@ public class LogisticRegression {
         public double[] x; // The feature vector for the instance
 
         /** TODO: Constructor for initializing the Instance object **/
-        public LRInstance(int label, double[] x) {
+        public LRInstance(int _label, double[] _x) {
+            label = _label;
+            x = new double[_x.length];
+            for (int i = 0; i < _x.length; i++) {
+                x[i] = _x[i];
+            }
         }
     }
 
