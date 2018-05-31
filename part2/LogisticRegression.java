@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -27,21 +28,33 @@ public class LogisticRegression {
 
     /** Implement the sigmoid function **/
     private static double sigmoid(double z) {
-        return (1 / (1 + Math.exp(- z)));
+        return 1.0 / (1.0 + Math.exp(- z));
     }
 
-    /** TODO: Helper function for prediction **/
+    /** Helper function for prediction **/
     /** Takes a test instance as input and outputs the probability of the label being 1 **/
     /** This function should call sigmoid() **/
     private double probPred1(double[] x) {
-        return 0.0;
+        double sum = 0.0;
+
+        for (int i = 0; i < weights.length; i++)  {
+            sum += weights[i] * x[i];
+        }
+
+        return sigmoid(sum);
     }
 
-    /** TODO: The prediction function **/
+    /** The prediction function **/
     /** Takes a test instance as input and outputs the predicted label **/
     /** This function should call probPred1() **/
     public int predict(double[] x) {
-        return 0;
+        double probability_1 = probPred1(x);
+
+        if (probability_1 >= 0.5) {
+            return 1;
+        } else{ 
+            return 0;
+        }
     }
 
     /** This function takes a test set as input, call the predict() to predict a label for it, and prints the accuracy, P, R, and F1 score of the positive class and negative class and the confusion matrix **/
@@ -51,7 +64,41 @@ public class LogisticRegression {
         double p_neg = 0, r_neg = 0, f_neg = 0;
         int TP = 0, TN = 0, FP = 0, FN = 0; // TP = True Positives, TN = True Negatives, FP = False Positives, FN = False Negatives
 
-        // TODO: write code here to compute the above mentioned variables
+        // Code here to compute the above mentioned variables
+        for (int i = 0; i < testInstances.size(); i++) {
+            // Get instance data
+            double[] x = testInstances.get(i).x;
+            int real_label = testInstances.get(i).label;
+
+            // Get prediction
+            int predicted_label = predict(x);
+
+            // Update vars
+            if (real_label == predicted_label) {
+                acc += 1;
+
+                if (real_label == 0)
+                    TN += 1;
+                else
+                    TP += 1;
+            } else {
+                if (real_label == 0)
+                    FP += 1;
+                else
+                    FN += 1;
+            }
+        }
+        
+        // Compute the vars
+        acc /= testInstances.size();
+
+        p_pos = (double) TP / ((double) TP + (double) FP);
+        r_pos = (double) TP / ((double) TP + (double) FN);
+        f_pos = 2.0 * p_pos * r_pos / (p_pos + r_pos);
+
+        p_neg = (double) TN / ((double) TN + (double) FN);
+        r_neg = (double) TN / ((double) TN + (double) FP);
+        f_neg = 2.0 * p_neg * r_neg / (p_neg + r_neg);
 
         System.out.println("Accuracy=" + acc);
         System.out.println("P, R, and F1 score of the positive class=" + p_pos + " " + r_pos + " " + f_pos);
@@ -68,9 +115,24 @@ public class LogisticRegression {
         for (int n = 0; n < ITERATIONS; n++) {
             double lik = 0.0; // Stores log-likelihood of the training data for this iteration
             for (int i = 0; i < instances.size(); i++) {
-                // TODO: Train the model
+                // Get instance data
+                double[] x = instances.get(i).x;
+                int real_label = instances.get(i).label;
 
-                // TODO: Compute the log-likelihood of the data here. Remember to take logs when necessary
+                // Predict
+                int predicted_label = predict(x);
+
+                // Get error
+                double error = (double) (real_label - predicted_label);
+                // Update weights
+                for (int j = 0; j < weights.length; j++) {
+                    double update = rate * error * x[j];
+                    weights[j] += update;
+                }
+
+                // Compute the log-likelihood of the data here. Remember to take logs when necessary
+                double probability = probPred1(x);
+                lik += (double) real_label * Math.log(probability) + (double) (1 - real_label) * Math.log(1.0 - probability);
             }
             System.out.println("iteration: " + n + " lik: " + lik);
         }

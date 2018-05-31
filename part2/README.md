@@ -13,9 +13,13 @@ I made a script that does both for a class (no extension needed)...
 ```bash
 ./do.sh <class>
 ```
-
-Also another script does it for all three files and pipes the output to files in `out/`:
+It is possible to save data to a file with `-o` flag:
 ```bash
-./doall.sh
+./do.sh <class> -o [<file>]
 ```
-For this, errors still show in the console, not in the file (easier to debug?).
+Note `<file>` is optional. If ont specified defaulst to the name of the class. In any case, it's saved to `/out`.
+
+Also another script does it for all three files and  optionally pipes the output to files in `out/`:
+```bash
+./doall.sh [-o]
+```

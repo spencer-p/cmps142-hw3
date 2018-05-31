@@ -1,11 +1,19 @@
 #!/bin/bash
 
-if [ ! -d out ]; then
+if [[ "$1" = "-o" ]]; then
+    rm *.class
+
+    if [ -d out ]; then
+        rm -rf out/
+    fi
+
     mkdir out/
+
+    source do.sh LogisticRegression -o
+    source do.sh LogisticRegression_withBias -o
+    source do.sh LogisticRegression_withRegularization -o
+else
+    source do.sh LogisticRegression
+    source do.sh LogisticRegression_withBias
+    source do.sh LogisticRegression_withRegularization
 fi
-
-source clean.sh
-
-source do.sh LogisticRegression > out/LogisticRegression.txt
-source do.sh LogisticRegression_withBias > out/LogisticRegression_withBias.txt
-source do.sh LogisticRegression_withRegularization > out/LogisticRegression_withRegularization.txt
