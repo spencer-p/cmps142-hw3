@@ -18,14 +18,19 @@ public class LogisticRegression_withRegularization {
     /** the number of iterations */
     private int ITERATIONS = 200;
 
-    /** TODO: Constructor initializes the weight vector. Initialize it by setting it to the 0 vector. **/
+    /** Constructor initializes the weight vector. Initialize it by setting it to the 0 vector. **/
     public LogisticRegression_withRegularization(int n) { // n is the number of weights to be learned
         weights = new double[n];
     }
 
-    /** TODO: Implement the function that returns the L2 norm of the weight vector **/
+    /** Implement the function that returns the L2 norm of the weight vector **/
     private double weightsL2Norm() {
-        return 0.0;
+        double sum = 0.0;
+        for (int i = 0; i < weights.length; i++) {
+            sum += Math.pow(weights[i], 2);
+        }
+
+        return (lambda / 2.0) * sum;
     }
 
     /** Implement the sigmoid function **/
@@ -33,7 +38,7 @@ public class LogisticRegression_withRegularization {
         return 1.0 / (1.0 + Math.exp(- z));
     }
 
-    /** TODO: Helper function for prediction **/
+    /** Helper function for prediction **/
     /** Takes a test instance as input and outputs the probability of the label being 1 **/
     /** This function should call sigmoid() **/
     private double probPred1(double[] x) {
@@ -46,7 +51,7 @@ public class LogisticRegression_withRegularization {
         return sigmoid(sum);
     }
 
-    /** TODO: The prediction function **/
+    /** The prediction function **/
     /** Takes a test instance as input and outputs the predicted label **/
     /** This function should call probPred1() **/
     public int predict(double[] x) {
@@ -117,8 +122,6 @@ public class LogisticRegression_withRegularization {
         for (int n = 0; n < ITERATIONS; n++) {
             double lik = 0.0; // Stores log-likelihood of the training data for this iteration
             for (int i = 0; i < instances.size(); i++) {
-                // TODO: Train the model
-                
                 // Get instance data
                 double[] x = instances.get(i).x;
                 int real_label = instances.get(i).label;
@@ -131,13 +134,15 @@ public class LogisticRegression_withRegularization {
                 // Update weights
                 for (int j = 0; j < weights.length; j++) {
                     double update = rate * error * x[j];
-                    weights[j] += update;
+                    double regularization = lambda * weights[j];
+                    weights[j] = weights[j] + update - regularization;
                 }
 
                 // Compute the log-likelihood of the data here. Remember to take logs when necessary
                 double probability = probPred1(x);
                 lik -= (double) real_label * Math.log(probability) + (double) (1 - real_label) * Math.log(1.0 - probability);
             }
+            lik -= weightsL2Norm();
             System.out.println("iteration: " + n + " lik: " + lik);
         }
     }

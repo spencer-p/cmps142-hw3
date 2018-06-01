@@ -114,8 +114,6 @@ public class LogisticRegression_withBias {
         for (int n = 0; n < ITERATIONS; n++) {
             double lik = 0.0; // Stores log-likelihood of the training data for this iteration
             for (int i = 0; i < instances.size(); i++) {
-                // TODO: Train the model
-                
                 // Get instance data
                 double[] x = instances.get(i).x;
                 int real_label = instances.get(i).label;
