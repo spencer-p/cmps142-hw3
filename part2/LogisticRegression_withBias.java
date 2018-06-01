@@ -1,5 +1,3 @@
-package cmps142_hw4;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -135,7 +133,7 @@ public class LogisticRegression_withBias {
 
                 // Compute the log-likelihood of the data here. Remember to take logs when necessary
                 double probability = probPred1(x);
-                lik += (double) real_label * Math.log(probability) + (double) (1 - real_label) * Math.log(1.0 - probability);
+                lik -= (double) real_label * Math.log(probability) + (double) (1 - real_label) * Math.log(1.0 - probability);
 
             }
             System.out.println("iteration: " + n + " lik: " + lik);
@@ -149,7 +147,9 @@ public class LogisticRegression_withBias {
         /** Constructor for initializing the Instance object **/
         public LRInstance(int _label, double[] _x) {
             label = _label;
-            x = new double[_x.length];
+            x = new double[_x.length + 1];          // Add 1 spot for the bias
+            x[x.length - 1] = 1.0;                  // Set bias feature to always 1
+
             for (int i = 0; i < _x.length; i++) {
                 x[i] = _x[i];
             }

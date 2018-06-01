@@ -1,5 +1,3 @@
-package cmps142_hw4;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -138,7 +136,7 @@ public class LogisticRegression_withRegularization {
 
                 // Compute the log-likelihood of the data here. Remember to take logs when necessary
                 double probability = probPred1(x);
-                lik += (double) real_label * Math.log(probability) + (double) (1 - real_label) * Math.log(1.0 - probability);
+                lik -= (double) real_label * Math.log(probability) + (double) (1 - real_label) * Math.log(1.0 - probability);
             }
             System.out.println("iteration: " + n + " lik: " + lik);
         }
