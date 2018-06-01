@@ -131,8 +131,8 @@ public class LogisticRegression {
                 }
 
                 // Compute the log-likelihood of the data here. Remember to take logs when necessary
-                double probability = probPred1(x);
-                lik += (double) real_label * Math.log(probability) + (double) (1 - real_label) * Math.log(1.0 - probability);
+                double probability_1 = probPred1(x);
+                lik += - ((double) real_label * Math.log(probability_1) + (double) (1 - real_label) * Math.log(1.0 - probability_1));
             }
             System.out.println("iteration: " + n + " lik: " + lik);
         }
