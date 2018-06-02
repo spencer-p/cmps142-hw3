@@ -20,9 +20,13 @@ public class LogisticRegression_withBias {
         weights = new double[n];
     }
 
-    /** TODO: Implement the function that returns the L2 norm of the weight vector **/
+    /** Returns the L2 norm of the weight vector **/
     private double weightsL2Norm() {
-        return 0.0;
+        double sum = 0.0;
+        for (int i = 0; i < weights.length; i++) {
+            sum += Math.pow(weights[i], 2);
+        }
+		return sum;
     }
 
     /** Implement the sigmoid function **/
