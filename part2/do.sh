@@ -1,7 +1,19 @@
 #!/bin/bash
 
-if [[ -e "$1".class ]]; then
-    rm "$1".class
+CLASS=""
+
+if [[ "$1" = "LR" ]]; then
+    CLASS="LogisticRegression"
+elif [[ "$1" = "LRB" ]]; then
+    CLASS="LogisticRegression_withBias"
+elif [[ "$1" = "LRR" ]]; then
+    CLASS="LogisticRegression_withRegularization"
+else
+    CLASS="$1"
+fi
+
+if [[ -e "$CLASS".class ]]; then
+    rm "$CLASS".class
 fi
 
 if [[ "$2" = '-o' ]]; then
@@ -10,13 +22,13 @@ if [[ "$2" = '-o' ]]; then
     fi
 
     if [[ -z "$3" ]]; then
-        javac cmps142_hw4/"$1".java > out/"$1".txt
-        java cmps142_hw4.$1 > out/"$1".txt
+        javac cmps142_hw4/"$CLASS".java > out/"$CLASS".txt
+        java cmps142_hw4.$CLASS > out/"$CLASS".txt
     else
-        javac cmps142_hw4/"$1".java > out/"$3".txt
-        java cmps142_hw4.$1 > out/"$3".txt
+        javac cmps142_hw4/"$CLASS".java > out/"$3".txt
+        java cmps142_hw4.$CLASS > out/"$3".txt
     fi
 else
-    javac cmps142_hw4/"$1".java
-    java cmps142_hw4.$1
+    javac cmps142_hw4/"$CLASS".java
+    java cmps142_hw4.$CLASS
 fi
