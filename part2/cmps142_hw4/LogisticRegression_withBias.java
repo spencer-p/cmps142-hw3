@@ -1,11 +1,12 @@
+package cmps142_hw4;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class LogisticRegression {
+public class LogisticRegression_withBias {
 
     /** the learning rate */
     private double rate = 0.01;
@@ -16,8 +17,8 @@ public class LogisticRegression {
     /** the number of iterations */
     private int ITERATIONS = 200;
 
-    /** Constructor initializes the weight vector. Initialize it by setting it to the 0 vector. **/
-    public LogisticRegression(int n) { // n is the number of weights to be learned
+    /** TODO: Constructor initializes the weight vector. Initialize it by setting it to the 0 vector. **/
+    public LogisticRegression_withBias(int n) { // n is the number of weights to be learned
         weights = new double[n];
     }
 
@@ -35,7 +36,7 @@ public class LogisticRegression {
         return 1.0 / (1.0 + Math.exp(- z));
     }
 
-    /** Helper function for prediction **/
+    /** TODO: Helper function for prediction **/
     /** Takes a test instance as input and outputs the probability of the label being 1 **/
     /** This function should call sigmoid() **/
     private double probPred1(double[] x) {
@@ -48,7 +49,7 @@ public class LogisticRegression {
         return sigmoid(sum);
     }
 
-    /** The prediction function **/
+    /** TODO: The prediction function **/
     /** Takes a test instance as input and outputs the predicted label **/
     /** This function should call probPred1() **/
     public int predict(double[] x) {
@@ -135,8 +136,9 @@ public class LogisticRegression {
                 }
 
                 // Compute the log-likelihood of the data here. Remember to take logs when necessary
-                double probability_1 = probPred1(x);
-                lik -= (double) real_label * Math.log(probability_1) + (double) (1 - real_label) * Math.log(1.0 - probability_1);
+                double probability = probPred1(x);
+                lik -= (double) real_label * Math.log(probability) + (double) (1 - real_label) * Math.log(1.0 - probability);
+
             }
             System.out.println("iteration: " + n + " lik: " + lik);
         }
@@ -149,7 +151,9 @@ public class LogisticRegression {
         /** Constructor for initializing the Instance object **/
         public LRInstance(int _label, double[] _x) {
             label = _label;
-            x = new double[_x.length];
+            x = new double[_x.length + 1];          // Add 1 spot for the bias
+            x[x.length - 1] = 1.0;                  // Set bias feature to always 1
+
             for (int i = 0; i < _x.length; i++) {
                 x[i] = _x[i];
             }
@@ -194,7 +198,7 @@ public class LogisticRegression {
 
         // create an instance of the classifier
         int d = trainInstances.get(0).x.length;
-        LogisticRegression logistic = new LogisticRegression(d);
+        LogisticRegression_withBias logistic = new LogisticRegression_withBias(d);
 
         logistic.train(trainInstances);
 

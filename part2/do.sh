@@ -10,13 +10,13 @@ if [[ "$2" = '-o' ]]; then
     fi
 
     if [[ -z "$3" ]]; then
-        javac "$1".java > out/"$1".txt
-        java $1 > out/"$1".txt
+        javac cmps142_hw4/"$1".java > out/"$1".txt
+        java cmps142_hw4.$1 > out/"$1".txt
     else
-        javac "$1".java > out/"$3".txt
-        java $1 > out/"$3".txt
+        javac cmps142_hw4/"$1".java > out/"$3".txt
+        java cmps142_hw4.$1 > out/"$3".txt
     fi
 else
-    javac "$1".java
-    java $1
+    javac cmps142_hw4/"$1".java
+    java cmps142_hw4.$1
 fi

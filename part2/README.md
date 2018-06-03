@@ -8,6 +8,10 @@
 
 * To compile a class: `javac <class>.java`. (note it has extension)
 * To run the class: `java <class>`. (note no extension here)
+* Possible values for `<class>`are:
+    - LogisticRegression
+    - LogisticRegression_withBias
+    - LogisticRegression_withRegularization
 
 I made a script that does both for a class (no extension needed)...
 ```bash

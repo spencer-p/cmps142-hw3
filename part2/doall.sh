@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ "$1" = "-o" ]]; then
-    rm *.class
+    rm cmps142_hw4/*.class
 
     if [ -d out ]; then
         rm -rf out/
