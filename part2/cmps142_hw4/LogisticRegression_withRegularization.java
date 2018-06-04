@@ -32,7 +32,7 @@ public class LogisticRegression_withRegularization {
             sum += Math.pow(weights[i], 2);
         }
 
-        return (lambda / 2.0) * sum;
+        return sum;
     }
 
     /** Implement the sigmoid function **/
@@ -144,7 +144,7 @@ public class LogisticRegression_withRegularization {
                 double probability = probPred1(x);
                 lik -= (double) real_label * Math.log(probability) + (double) (1 - real_label) * Math.log(1.0 - probability);
             }
-            lik -= weightsL2Norm();
+            lik -= (lambda/2.0)*weightsL2Norm();
             System.out.println("iteration: " + n + " lik: " + lik);
         }
     }
