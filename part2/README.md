@@ -1,4 +1,4 @@
-# CMPS 142 HW3 - JAva
+# CMPS 142 HW3 - Java
 
 # Setting up
 
