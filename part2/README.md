@@ -1,5 +1,9 @@
 # CMPS 142 HW3 - Java
 
+Please note that all the java files are in the directory `cmps142_hw4` since
+they define their package to be `cmps142_hw4`. Use the shell scripts (below) to
+compile and run.
+
 # Setting up
 
 * Install JDK
