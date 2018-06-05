@@ -17,7 +17,7 @@ public class LogisticRegression_withBias {
     /** the number of iterations */
     private int ITERATIONS = 200;
 
-    /** TODO: Constructor initializes the weight vector. Initialize it by setting it to the 0 vector. **/
+    /** Constructor initializes the weight vector. Initialize it by setting it to the 0 vector. **/
     public LogisticRegression_withBias(int n) { // n is the number of weights to be learned
         weights = new double[n];
     }
@@ -36,7 +36,7 @@ public class LogisticRegression_withBias {
         return 1.0 / (1.0 + Math.exp(- z));
     }
 
-    /** TODO: Helper function for prediction **/
+    /** Helper function for prediction **/
     /** Takes a test instance as input and outputs the probability of the label being 1 **/
     /** This function should call sigmoid() **/
     private double probPred1(double[] x) {
@@ -49,7 +49,7 @@ public class LogisticRegression_withBias {
         return sigmoid(sum);
     }
 
-    /** TODO: The prediction function **/
+    /** The prediction function **/
     /** Takes a test instance as input and outputs the predicted label **/
     /** This function should call probPred1() **/
     public int predict(double[] x) {
